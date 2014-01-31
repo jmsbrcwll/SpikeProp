@@ -10,12 +10,17 @@ inputNeuron;
 %need to keep for each neuron:
 %1. a list of times they have fired
 %2. a list of the weights coming towards them
+nodeCount = 8;
+input_hidden_weights = randn(node_count,1);
+hidden1_fire_times = zeros(node_count,20);
 
-input_hidden_weights = randn(20,1);
-hidden_fire_times = zeros(20,20);
-hidden_output_weights = randn(20,1);
-output_fire_times = [];
+hidden1_hidden2_weights = randn(node_count,node_count);
+hidden2_fire_times = randn(20,20);
+
+hidden2_output_weights = randn(20,1);
+output_fire_times = zeros(20,20);
 threshold = 1;
+
 %run the network
 pointer = 0;
 for i = 1:0.0001:20
@@ -25,13 +30,23 @@ for i = 1:0.0001:20
     end
     
     %check if the hidden neurons have fired
-    for j = 1:20
-        potential = hiddenPotential(j, i, input_hidden_weights);
+    for j = 1:nodeCount
+        potential = hiddenPotential(j, i, input_hidden_weights, input_fire_times(j,:));
         
         %if passes the threshold, add a firing time to that neuron
         if potential >= threshold
-            hidden_fire_times(nnz(hidden_fire_times)+1) = i;
-            
+            hidden1_fire_times(nnz(hidden1_fire_times)+1) = i;     
+        end
+        
+    end
+    
+    %check if the 2nd layer hidden neurons have fired
+     for j = 1:nodeCount
+        potential = hiddenPotential(j, i, hidden1_hidden2_weights, hidden1_fire_times(j,:));
+        
+        %if passes the threshold, add a firing time to that neuron
+        if potential >= threshold
+            hidden2_fire_times(nnz(hidden2_fire_times)+1) = i;     
         end
         
     end
@@ -42,10 +57,12 @@ for i = 1:0.0001:20
     
     %IDEALLY HAVE 2 HIDDEN LAYERS, BUT MAKE WORK WITH 1 HIDDEN LAYER FOR
     %NOW
-    potential = outputPotential(i, hidden_output_weights, hidden_fire_times);
-    if potential >= threshold
-        output_fire_times = [output_fire_times; i];
-        
+    for j = 1:nodeCount
+        potential = hiddenPotential(j, i, hidden2_output_weights);
+        if potential >= threshold
+            output_fire_times(nnz(hidden_fire_times) + 1) = i;
+
+        end
     end
     
     

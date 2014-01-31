@@ -5,13 +5,16 @@
 %i - neuron pointer
 %t - current time
 %weights - weights on connections from input to the hidden nodes
-%firetimes - fire times of the input node
+%firetimes - matrix of fire times of all previous layer nodes
 
 %could also learn with delays but not doing so here - using weights
 
 function rtn = hiddenPotential(i, t, weights, fireTimes)
-
-        rtn =  weights(i)*spikeResponse(t - max(fireTimes(i,:)));
+        total = 0;
+        
+        for j = 1:size(weights(i),2)
+            rtn =  weights(i,j)*spikeResponse(t - max(fireTimes(j,:)));
+        end
 
 
 
