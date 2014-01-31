@@ -37,10 +37,14 @@ for i = 1:0.0001:20
     end
     
     %check if the output neuron has fired
+    %NEED TO CHANGE SO THAT THERE ARE 8 OUTPUT NEURONS, AS SPIKEPROP ONLY
+    %ALLOWS FOR A SINGLE SPIKE
+    
+    %IDEALLY HAVE 2 HIDDEN LAYERS, BUT MAKE WORK WITH 1 HIDDEN LAYER FOR
+    %NOW
     potential = outputPotential(i, hidden_output_weights, hidden_fire_times);
     if potential >= threshold
         output_fire_times = [output_fire_times; i];
-        
         
     end
     

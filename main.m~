@@ -11,9 +11,10 @@ inputNeuron;
 %1. a list of times they have fired
 %2. a list of the weights coming towards them
 
-input_hidden_weights = zeros(20,1);
+input_hidden_weights = randn(20,1);
 hidden_fire_times = zeros(20,20);
-hidden_output_weights = zeros(20,1);
+hidden_output_weights = randn(20,1);
+output_fire_times = [];
 threshold = 1;
 %run the network
 pointer = 0;
@@ -36,7 +37,11 @@ for i = 1:0.0001:20
     end
     
     %check if the output neuron has fired
-    
+    potential = outputPotential(i, hidden_output_weights, hidden_fire_times);
+    if potential >= threshold
+        output_fire_times = [output_fire_times; i];
+        
+    end
     
     
     
