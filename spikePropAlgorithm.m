@@ -38,11 +38,11 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
             for j = 1:layer_node_num(i)
 
                 %firetime of this node
-                output = fireTimes(i,j);
+                output = fire_times(i,j);
 
 
                 %all weights going out from this node
-                weights = weights(i,j,:);
+                current_weights = weights(i,j,:);
 
                 %all weights from previous nodes going to this one
                 %(the jth connection out from each node in the previous layer
@@ -57,7 +57,7 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
 
                 current_layer_fire_time = fire_times(i,j);
 
-                deltas(i,j) = deltaHidden(output,  weights, prev_weights, deltasNextLayer,  next_layer_fire_times, prev_layer_fire_times, current_layer_fire_time);
+                deltas(i,j) = deltaHidden(output,  current_weights, prev_weights, deltasNextLayer,  next_layer_fire_times, prev_layer_fire_times, current_layer_fire_time);
 
             end
         end
@@ -101,9 +101,9 @@ end
 function rtn = deltaHidden(output,  weights, prev_weights, deltas,  next_layer_fire_times, prev_layer_fire_times, current_layer_fire_time)
     numerator = 0;
     denominator = 0;
-    for i = 1:size(nextWeights,1)
-        numerator = numerator +  deltas(i) * nextWeights * spikeResponseDerivative(next_layer_fire_times(i) - current_layer_fire_time);
-        denominator = denominator + prev_weights * spikeResponseDerivative(current_layer_fire_time - prev_layer_fire_times(i));
+    for i = 1:size(weights,1)
+        numerator = numerator +  deltas(i) * weights(i) * spikeResponseDerivative(next_layer_fire_times(i) - current_layer_fire_time);
+        denominator = denominator + prev_weights(i) * spikeResponseDerivative(current_layer_fire_time - prev_layer_fire_times(i));
     end
     
     rtn = numerator/denominator;
@@ -123,7 +123,7 @@ function rtn = deltaOutput(output, desired,  previous_weights, previous_fire_tim
 end
 
 
-function spikeResponseDerivative(s)
+function rtn = spikeResponseDerivative(s)
 t_m = 0.05;
 t_s = 0.02;
 
