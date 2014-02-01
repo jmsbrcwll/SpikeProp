@@ -14,7 +14,7 @@ threshold = 0.1;
 
 %run the network
 pointer = 1;
-for i = 0:0.0001:20
+for i = 0:0.0001:10
     %check if input neuron has fired
     if i >= peakLocs(1,pointer)
         input_fire_times(pointer) = peakLocs(1,pointer);

@@ -18,7 +18,7 @@ function [weights, fire_times] =  spikePropAlgorithm(input_fire_times, desired_f
 
 
 
-no_of_layers = max(layer_node_num(:,1));
+no_of_layers = size(layer_node_num,1);
 
 %step 1: calculate deltas for output layer
 no_of_output_nodes = layer_node_num(size(layer_node_num,1));
@@ -115,7 +115,7 @@ end
 function rtn = deltaOutput(output, desired,  previous_weights, previous_fire_times)
  denominator = 0;
  for i = 1:size(previous_weights,1)
-     denominator = denominator + weight * spikeResponseDerivative(output - previous_fire_times(i));
+     denominator = denominator + previous_weights(i) * spikeResponseDerivative(output - previous_fire_times(i));
      
  end
  
