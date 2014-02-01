@@ -11,12 +11,11 @@ layer_node_num(3) =8;
 layer_node_num(4) =8;
 
 weights = zeros(4,8,8);
-for i = 1:4
-    weights(1,1:8) = rand(1,8);
+
+    weights(1,1:8,1) = rand(1,8);
     weights(2,:,:) = rand(8,8);
-    weights(3,1:8) = rand(1,8);
-    
-end
+    weights(3,1:8,1) = rand(1,8);
+
 
 meanErrorLog = [];
 for iter = 1:100
