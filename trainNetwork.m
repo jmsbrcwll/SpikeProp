@@ -27,7 +27,7 @@ for iter = 1:100
         error = error + (1/8)*(desired_output_fire_times - input_fire_times)^2
         
     end
-    meanError = error / 15;]
+    meanError = error / 15;
     meanErrorLog = [meanErrorLog; meanError];
     
 end
