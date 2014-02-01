@@ -14,16 +14,10 @@
 
 %layer_node_num - number of nodes in each layer, e.g. layer_node_num[4] = 4
 %nodes in the first layer.
-function rtn =  spikePropAlgorithm(input_spikes, desired_fire_times, step_size, layer_node_num)
+function rtn =  spikePropAlgorithm(input_spikes, desired_fire_times,weights,  step_size, layer_node_num)
 
 no_of_layers = size(fireTimes,1);
-weights = zeros(4,max(layer_node_num),max(layer_node_num)^2);
-for i = 1:4
-    weights(1,1:8) = rand(1,8);
-    weights(2,:) = rand(1,64);
-    weights(3,1:8) = rand(1,8);
-    
-end
+
 
 
 %step 1: calculate deltas for output layer
@@ -91,7 +85,7 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
         
 
 
-rtn = weights
+rtn = weights;
     
 end
 

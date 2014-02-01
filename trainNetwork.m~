@@ -18,16 +18,13 @@ for i = 1:4
     
 end
 
-meanErrorLog = [];
 for iter = 1:100
 %loop through training examples
     for i = 1:size(input_fire_times, 1)
         [weights,fire_times] = spikePropAlgorithm( input_fire_times(i,:), desired_output_fire_times(i,:),weights, 0.01, layer_node_num);
         input_fire_times(i,:) = fire_times(4,:);
-        error = error + (1/8)*(desired_output_fire_times - input_fire_times)^2
+        error = error + (desired_output
         
     end
-    meanError = error / 15;]
-    meanErrorLog = [meanErrorLog; meanError];
     
 end

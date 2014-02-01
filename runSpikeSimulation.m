@@ -1,13 +1,13 @@
 function [fireTimes, weights] = runSpikeSimulation(weights, peakLocs)
 
 node_count = 8;
-input_hidden_weights = randn(node_count,1);
+input_hidden_weights = weights(1,:);
 hidden1_fire_times = zeros(node_count,1);
 
-hidden1_hidden2_weights = randn(node_count,node_count);
+hidden1_hidden2_weights = weights(2,:);
 hidden2_fire_times =  zeros(node_count,1);
 
-hidden2_output_weights = randn(node_count,1);
+hidden2_output_weights = weights(3,:);
 output_fire_times = zeros(node_count,1);
 threshold = 0.1;
 
