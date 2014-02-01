@@ -14,22 +14,21 @@
 
 %layer_node_num - number of nodes in each layer, e.g. layer_node_num[4] = 4
 %nodes in the first layer.
-function rtn =  spikePropAlgorithm(input_spikes, desired_fire_times,weights,  step_size, layer_node_num)
-
-no_of_layers = size(fireTimes,1);
+function [weights, fire_times] =  spikePropAlgorithm(input_fire_times, desired_fire_times,weights,  step_size, layer_node_num)
 
 
+
+no_of_layers = max(layer_node_num(:,1));
 
 %step 1: calculate deltas for output layer
 no_of_output_nodes = layer_node_num(size(layer_node_num,1));
-[firetimes,weights] = runSpikeSimulation(weights, input_spikes);
+[fire_times,weights] = runSpikeSimulation(weights, input_fire_times);
 
     
     
-
         deltas = zeros(no_of_layers,no_of_output_nodes);
         for i = 1:no_of_output_nodes
-            deltas(no_of_layers,i) = deltaOutput(fireTimes(no_of_layers,i), desired_fire_times(i), weights(no_of_layers -1,i,1), fireTimes(no_of_layers -1, i));
+            deltas(no_of_layers,i) = deltaOutput(fire_times(no_of_layers,i), desired_fire_times(i), weights(no_of_layers -1,i,1), fire_times(no_of_layers -1, i));
 
         end
 
@@ -52,11 +51,11 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
 
                 deltasNextLayer = deltas(i+1,:);
 
-                next_layer_fire_times = fireTimes(i+1,:);
+                next_layer_fire_times = fire_times(i+1,:);
 
-                prev_layer_fire_times = fireTimes(i -1,:);
+                prev_layer_fire_times = fire_times(i -1,:);
 
-                current_layer_fire_time = fireTimes(i,j);
+                current_layer_fire_time = fire_times(i,j);
 
                 deltas(i,j) = deltaHidden(output,  weights, prev_weights, deltasNextLayer,  next_layer_fire_times, prev_layer_fire_times, current_layer_fire_time);
 
@@ -66,7 +65,7 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
         %step 3: adapt weights in final layer
         for i = 1:layer_node_num(no_of_layers -1)
             for j = 1:layer_node_num(no_of_layers)
-                weights(no_of_layers -1,i,j) =  weights(no_of_layers-1,i,j) - step_size*(spikeResponse(fireTimes(no_of_layers,j) - fireTimes(no_of_layers-1,i)));
+                weights(no_of_layers -1,i,j) =  weights(no_of_layers-1,i,j) - step_size*(spikeResponse(fire_times(no_of_layers,j) - fire_times(no_of_layers-1,i)));
 
             end
 
@@ -76,16 +75,13 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
         for k = no_of_layers -1:-1:2
             for i = 1:layer_node_num(k-1)
                 for j = 1:layer_node_num(k)
-                    weights(k-1, i,j) = weights(k-1,i,j) - step_size*(spikeResponse(fireTimes(k,j) - fireTimes(k-1,i)));
+                    weights(k-1, i,j) = weights(k-1,i,j) - step_size*(spikeResponse(fire_times(k,j) - fire_times(k-1,i)));
                 end
             end
 
         end
         
         
-
-
-rtn = weights;
     
 end
 
