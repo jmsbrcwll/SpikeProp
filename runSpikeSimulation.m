@@ -59,13 +59,13 @@ for i = 0:0.0001:20
 end
 
  %create fireTimes matrix
-    fireTimes = [input_fire_times;hidden1_fire_times,hidden2_fire_times;output_fire_times];
+    fireTimes = [input_fire_times';hidden1_fire_times';hidden2_fire_times';output_fire_times'];
 
-    weights = zeros(3,8,8^2);
+    weights = zeros(3,8,8);
     for i = 1:8
     weights(1,i,1) = input_hidden_weights(i);
     weights(2,i,:) = hidden1_hidden2_weights(i,:);
-    weights(3,i,1) = hidden3_weights(i);
+    weights(3,i,1) = hidden2_output_weights(i);
     end
     
     
