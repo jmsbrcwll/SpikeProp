@@ -1,21 +1,5 @@
-load('spikeTime_inputs.mat');
-input_fire_times = zeros(8,1);
-load('spikeTimings_desired.mat');
-desired_output_fire_times = peakLocs;
+function [fireTimes, weights] = runSpikeSimulation(weights, peakLocs)
 
-
-%20 connections -one from each input to each hidden
-%20 connections - one from each output to the output
-
-%need to keep for each neuron:
-%1. a list of the fire time (if it has fired)
-%2. a list of the weights coming towards them
-
-%TO-DO: clean up everything so it can be used as input/output to the
-%spikeprop algorithm
-%TO-DO: may need to alter so there are node_count input neurons
-%which fire once for each spike in the train, depending on how the error
-%backpropagation works at the input layer
 node_count = 8;
 input_hidden_weights = randn(node_count,1);
 hidden1_fire_times = zeros(node_count,1);
@@ -74,8 +58,7 @@ for i = 0:0.0001:20
 end
 
  %create fireTimes matrix
-
-    fireTimes = [fireTimes; input_fire_times;hidden1_fire_times,hidden2_fire_times;output_fire_times];
+    fireTimes = [input_fire_times;hidden1_fire_times,hidden2_fire_times;output_fire_times];
 
     weights = zeros(3,8,8^2);
     for i = 1:8
@@ -83,6 +66,12 @@ end
     weights(2,i,:) = hidden1_hidden2_weights(i,:);
     weights(3,i,1) = hidden3_weights(i);
     end
+    
+    
 
     
 
+
+
+
+end

@@ -3,7 +3,7 @@ input_fire_times = zeros(8,1);
 load('spikeTimings_desired.mat');
 desired_output_fire_times = peakLocs;
 
-
+function [weights, spikeTimes] = runSpikeSimulation(weights, inputs)
 %20 connections -one from each input to each hidden
 %20 connections - one from each output to the output
 
@@ -74,15 +74,16 @@ for i = 0:0.0001:20
 end
 
  %create fireTimes matrix
-
+    fireTimes = []
     fireTimes = [fireTimes; input_fire_times;hidden1_fire_times,hidden2_fire_times;output_fire_times];
-
+    input_hidden_weights 
     weights = zeros(3,8,8^2);
     for i = 1:8
-    weights(1,i,1) = input_hidden_weights(i);
-    weights(2,i,:) = hidden1_hidden2_weights(i,:);
-    weights(3,i,1) = hidden3_weights(i);
+    weights = [1,i,1] = input_hidden_weights(i);
+    weights = [2,i,:] = hidden1_hidden2_weights(i,:);
+    weights = [3,i,1] = hidden3_weights(i);
     end
-
+    
+    
     
 
