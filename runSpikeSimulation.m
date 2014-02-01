@@ -5,7 +5,7 @@ input_fire_times = zeros(node_count,1);
 input_hidden_weights = weights(1,:,1);
 hidden1_fire_times = zeros(node_count,1);
 
-hidden1_hidden2_weights = weights(2,:,:);
+hidden1_hidden2_weights = weights(2,:,:); %need a way to extract the values into an 8x8 matrix, as they are coming out as 1x8x8 with this command
 hidden2_fire_times =  zeros(node_count,1);
 
 hidden2_output_weights = weights(3,:,1);
