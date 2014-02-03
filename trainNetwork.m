@@ -12,24 +12,22 @@ layer_node_num(4) =8;
 
 weights = zeros(3,8,8);
 
-    weights(1,1:8,1) = rand(1,8);
-    weights(2,:,:) = rand(8,8);
-    weights(3,1:8,1) = rand(1,8);
+    weights(1,1:8,1) = 0.1 * ones(1,8);
+    weights(2,:,:) = 0.1 * ones(8,8);
+    weights(3,1:8,1) = 0.1* ones(1,8);
 
 
 meanErrorLog = [];
-
+errors = zeros(size(input_fire_times,1));
 for iter = 1:100
 %loop through training examples
        
     for i = 1:size(input_fire_times, 1)
-        error = 0;
         [weights,fire_times] = spikePropAlgorithm( input_fire_times(i,:), desired_output_fire_times(i,:),weights, 0.01, layer_node_num);
-        input_fire_times(i,:) = fire_times(4,:);
-        error = sum((desired_output_fire_times(i) - input_fire_times(i)).^2) /8;
+        errors(i) = getError(desired_output_fire_times(i,:)',fire_times(4,:));
         
     end
-    meanError = error / 15;
+    meanError = sum(errors) / 15;
     meanErrorLog = [meanErrorLog; meanError];
     
 end

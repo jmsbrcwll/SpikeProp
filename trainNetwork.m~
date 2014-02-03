@@ -18,12 +18,15 @@ weights = zeros(3,8,8);
 
 
 meanErrorLog = [];
+errors = zeros(size(input_fire_times,1);
 for iter = 1:100
 %loop through training examples
+       
     for i = 1:size(input_fire_times, 1)
+        error = 0;
         [weights,fire_times] = spikePropAlgorithm( input_fire_times(i,:), desired_output_fire_times(i,:),weights, 0.01, layer_node_num);
         input_fire_times(i,:) = fire_times(4,:);
-        error = error + (1/8).*(norm(desired_output_fire_times(i) - input_fire_times(i)))
+        error = sum((desired_output_fire_times(i) - input_fire_times(i)).^2) /8;
         
     end
     meanError = error / 15;
