@@ -12,9 +12,9 @@ layer_node_num(4) =8;
 
 weights = zeros(3,8,8);
 
-    weights(1,1:8,1) = 0.1 * ones(1,8);
-    weights(2,:,:) = 0.1 * ones(8,8);
-    weights(3,1:8,1) = 0.1* ones(1,8);
+    weights(1,1:8,1) = ones(1,8);
+    weights(2,:,:) =  ones(8,8);
+    weights(3,1:8,1) = ones(1,8);
 
 
 meanErrorLog = [];
