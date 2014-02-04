@@ -1,5 +1,8 @@
 function [fireTimes, weights] = runSpikeSimulation(weights, peakLocs)
 
+%TODO - change architecure so that there are 8 input nodes, which are fully
+%connected to the first hidden input layer
+
 node_count = 8;
 input_fire_times = zeros(node_count,1);
 input_hidden_weights = weights(1,:,1);
@@ -14,7 +17,7 @@ threshold = 0.1;
 
 %run the network
 pointer = 1;
-for i = 0:0.0001:10
+for i = 0:0.0001:9
     %check if input neuron has fired
     if i >= peakLocs(1,pointer)
         input_fire_times(pointer) = peakLocs(1,pointer);

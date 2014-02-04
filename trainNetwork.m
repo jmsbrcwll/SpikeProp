@@ -12,9 +12,9 @@ layer_node_num(4) =8;
 
 weights = zeros(3,8,8);
 
-    weights(1,1:8,1) = ones(1,8);
-    weights(2,:,:) =  ones(8,8);
-    weights(3,1:8,1) = ones(1,8);
+    weights(1,1:8,1) = 2*rand(1,8) + 1;
+    weights(2,:,:) =  2*rand(8,8) + 1;
+    weights(3,1:8,1) = 2* rand(1,8) + 1;
 
 
 meanErrorLog = [];
@@ -29,5 +29,9 @@ for iter = 1:100
     end
     meanError = sum(errors) / 15;
     meanErrorLog = [meanErrorLog; meanError];
+    if mod(iter,10) == 0
+        hello = 5;
+        
+    end
     
 end
