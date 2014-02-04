@@ -17,7 +17,7 @@ threshold = 0.1;
 
 %run the network
 pointer = 1;
-for i = 0:0.0001:9
+for i = 0:0.001:9
     %check if input neuron has fired
     if i >= peakLocs(1,pointer)
         input_fire_times(pointer) = peakLocs(1,pointer);
@@ -56,6 +56,10 @@ for i = 0:0.0001:9
             output_fire_times(j,1) = i;
 
         end
+    end
+    
+    if nnz(output_fire_times) == size(output_fire_times,1)
+        break;
     end
         
     

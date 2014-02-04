@@ -12,14 +12,14 @@ layer_node_num(4) =8;
 
 weights = zeros(3,8,8);
 
-    weights(1,:,:) =  6 * rand(8,8) + 2;
-    weights(2,:,:) =  6  * rand(8,8) + 2;
-    weights(3,1:8,1) = 6 *  rand(1,8) + 2;
+    weights(1,:,:) =  20 * rand(8,8) + 2;
+    weights(2,:,:) =  20  * rand(8,8) + 2;
+    weights(3,1:8,1) = 20 *  rand(1,8) + 2;
 
 
 meanErrorLog = [];
 errors = zeros(size(input_fire_times,1));
-for iter = 1:2
+for iter = 1:100
 %loop through training examples
        
     for i = 1:size(input_fire_times, 1)
