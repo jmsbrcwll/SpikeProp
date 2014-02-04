@@ -19,7 +19,7 @@ weights = zeros(3,8,8);
 
 meanErrorLog = [];
 errors = zeros(size(input_fire_times,1));
-for iter = 1:100
+for iter = 1:2
 %loop through training examples
        
     for i = 1:size(input_fire_times, 1)
