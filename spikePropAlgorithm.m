@@ -65,7 +65,7 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
         %step 3: adapt weights in final layer
         for i = 1:layer_node_num(no_of_layers -1)
             for j = 1:layer_node_num(no_of_layers)
-                weights(no_of_layers -1,i,j) =  weights(no_of_layers-1,i,j) - step_size*(spikeResponse(fire_times(no_of_layers,j) - fire_times(no_of_layers-1,i)));
+                weights(no_of_layers -1,i,j) =  weights(no_of_layers-1,i,j) + step_size*(spikeResponse(fire_times(no_of_layers,j) - fire_times(no_of_layers-1,i)));
 
             end
 
@@ -75,7 +75,7 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
         for k = no_of_layers -1:-1:2
             for i = 1:layer_node_num(k-1)
                 for j = 1:layer_node_num(k)
-                    weights(k-1, i,j) = weights(k-1,i,j) - step_size*(spikeResponse(fire_times(k,j) - fire_times(k-1,i)));
+                    weights(k-1, i,j) = weights(k-1,i,j) + step_size*(spikeResponse(fire_times(k,j) - fire_times(k-1,i)));
                 end
             end
 
