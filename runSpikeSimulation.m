@@ -5,7 +5,7 @@ function [fireTimes, weights] = runSpikeSimulation(weights, peakLocs)
 
 node_count = 8;
 input_fire_times = zeros(node_count,1);
-input_hidden_weights = weights(1,:,1);
+input_hidden_weights = convertTo2d(weights(1,:,:));
 hidden1_fire_times = zeros(node_count,1);
 
 hidden1_hidden2_weights = convertTo2d(weights(2,:,:)); %need a way to extract the values into an 8x8 matrix, as they are coming out as 1x8x8 with this command
@@ -29,7 +29,7 @@ for i = 0:0.0001:9
     
     %check if the hidden neurons have fired
     for j = 1:node_count
-        potential = hiddenPotential(j, i, input_hidden_weights', input_fire_times, hidden1_fire_times(j,:), threshold);
+        potential = hiddenPotential(j, i, input_hidden_weights, input_fire_times, hidden1_fire_times(j,:), threshold);
         
         %if passes the threshold, add a firing time to that neuron
         if potential >= threshold && hidden1_fire_times(j,1) == 0
@@ -66,7 +66,7 @@ end
 
     weights = zeros(3,8,8);
     for i = 1:8
-    weights(1,i,1) = input_hidden_weights(i);
+    weights(1,i,:) = input_hidden_weights(i);
     weights(2,i,:) = hidden1_hidden2_weights(i,:);
     weights(3,i,1) = hidden2_output_weights(i);
     end
