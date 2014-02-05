@@ -4,7 +4,7 @@ function rtn = spikeResponse(s)
 t_m = 0.05;
 t_s = 0.02;
 
-s = s -0.1;
+s = s -0.001;
 
     %added 0.1 delay
     rtn = (exp(-s/t_m) - exp(-s/t_s) ) * H(s);
