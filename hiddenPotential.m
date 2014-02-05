@@ -11,6 +11,10 @@
 %could also learn with delays but not doing so here - using weights
 
 function rtn = hiddenPotential(i, t, weights, fireTimes, thisFireTimes, threshold)
+if i == 1
+    hello = 4;
+    
+end
         total = 0;
      
         for j = 1:size(thisFireTimes,2)
@@ -20,9 +24,9 @@ function rtn = hiddenPotential(i, t, weights, fireTimes, thisFireTimes, threshol
             
         end
         
-        for j = 1:size(weights(i),2)
-            if max(fireTimes(j,:)) ~= 0
-             total = total +  weights(i,j)*spikeResponse(t - max(fireTimes(j,:)));
+        for j = 1:size(weights(:,i),1)
+            if fireTimes(j) ~= 0
+             total = total +  weights(j,i)*spikeResponse(t - max(fireTimes(j,:)));
             end
         end
         

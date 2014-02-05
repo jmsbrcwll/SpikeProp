@@ -11,7 +11,7 @@ hidden1_fire_times = zeros(node_count,1);
 hidden1_hidden2_weights = convertTo2d(weights(2,:,:)); %need a way to extract the values into an 8x8 matrix, as they are coming out as 1x8x8 with this command
 hidden2_fire_times =  zeros(node_count,1);
 
-hidden2_output_weights = weights(3,:,1);
+hidden2_output_weights = convertTo2d(weights(3,:,:));
 output_fire_times = zeros(node_count,1);
 threshold = 0.1;
 
@@ -29,10 +29,10 @@ for i = 0:0.001:9
     
     %check if the hidden neurons have fired
     for j = 1:node_count
-        potential = hiddenPotential(j, i, input_hidden_weights, input_fire_times, hidden1_fire_times(j,:), threshold);
+        potential = hiddenPotential(j, i, input_hidden_weights, input_fire_times, hidden1_fire_times(:), threshold);
         
         %if passes the threshold, add a firing time to that neuron
-        if potential >= threshold && hidden1_fire_times(j,1) == 0
+        if potential >= threshold 
             hidden1_fire_times(j,1) = i;     
         end
         
@@ -40,10 +40,10 @@ for i = 0:0.001:9
     
     %check if the 2nd layer hidden neurons have fired
      for j = 1:node_count
-        potential = hiddenPotential(j, i, hidden1_hidden2_weights, hidden1_fire_times(j,:), hidden2_fire_times(j,:), threshold);
+        potential = hiddenPotential(j, i, hidden1_hidden2_weights, hidden1_fire_times(:), hidden2_fire_times(:), threshold);
         
         %if passes the threshold, set the fire time
-        if potential >= threshold && hidden2_fire_times(j,1) == 0
+        if potential >= threshold 
             hidden2_fire_times(j,1) = i;     
         end
         
@@ -51,14 +51,14 @@ for i = 0:0.001:9
     
  
     for j = 1:node_count
-        potential = hiddenPotential(j, i, hidden2_output_weights', hidden2_fire_times(j,:), output_fire_times(j,:), threshold);
-        if potential >= threshold && output_fire_times(j,1) == 0
+        potential = hiddenPotential(j, i, hidden2_output_weights', hidden2_fire_times(:), output_fire_times(:), threshold);
+        if potential >= threshold 
             output_fire_times(j,1) = i;
 
         end
     end
     
-    if nnz(output_fire_times) == size(output_fire_times,1)
+    if nnz(output_fire_times) == size(output_fire_times,1) && nnz(input_fire_times) == size(input_fire_times,1)
         break;
     end
         
