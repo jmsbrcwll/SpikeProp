@@ -17,12 +17,12 @@ if i == 1
 end
         total = 0;
      
-        for j = 1:size(thisFireTimes,2)
-            if thisFireTimes(j) ~= 0
-             total = total + nu(threshold, t - thisFireTimes(j));
-            end
-            
-        end
+%         for j = 1:size(thisFireTimes,2)
+%             if thisFireTimes(j) ~= 0
+%              total = total + nu(threshold, t - thisFireTimes(j));
+%             end
+%             
+%         end
         
         for j = 1:size(weights(:,i),1)
             if fireTimes(j) ~= 0

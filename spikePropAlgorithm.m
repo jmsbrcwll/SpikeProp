@@ -28,7 +28,7 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
     
         deltas = zeros(no_of_layers,no_of_output_nodes);
         for i = 1:no_of_output_nodes
-            deltas(no_of_layers,i) = deltaOutput(fire_times(no_of_layers,i), desired_fire_times(i), weights(no_of_layers -1,i,1), fire_times(no_of_layers -1, i));
+            deltas(no_of_layers,i) = deltaOutput(fire_times(no_of_layers,i), desired_fire_times(i), weights(no_of_layers -1,:,i), fire_times(no_of_layers -1, :));
 
         end
 
@@ -100,9 +100,9 @@ end
 function rtn = deltaHidden(output,  weights, prev_weights, deltas,  next_layer_fire_times, prev_layer_fire_times, current_layer_fire_time)
     numerator = 0;
     denominator = 0;
-    for i = 1:size(weights,1)
-        numerator = numerator +  deltas(i) * weights(i) * spikeResponseDerivative(next_layer_fire_times(i) - current_layer_fire_time);
-        denominator = denominator + prev_weights(i) * spikeResponseDerivative(current_layer_fire_time - prev_layer_fire_times(i));
+    for i = 1:size(prev_weights,2)
+        numerator = numerator +  deltas(i) * weights(i) * spikeResponseDerivative(next_layer_fire_times(i) - output)
+        denominator = denominator + prev_weights(i) * spikeResponseDerivative(output - prev_layer_fire_times(i));
     end
     
     rtn = numerator/denominator;
@@ -111,14 +111,16 @@ end
 
 
 %weights an fire times are in a one-to-one mapping currently
+%previous_weights - all weights pointing to this node
+%previous_firing_times - firing times of all nodes in the previous layer.
 function rtn = deltaOutput(output, desired,  previous_weights, previous_fire_times)
  denominator = 0;
- for i = 1:size(previous_weights,1)
+ for i = 1:size(previous_weights,2)
      denominator = denominator + previous_weights(i) * spikeResponseDerivative(output - previous_fire_times(i));
      
  end
  
- rtn = (output - desired) / denominator;
+ rtn = ( desired - output) / denominator;
 end
 
 
