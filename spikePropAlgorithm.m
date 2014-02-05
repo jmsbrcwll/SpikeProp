@@ -105,6 +105,10 @@ function rtn = deltaHidden(output,  weights, prev_weights, deltas,  next_layer_f
         denominator = denominator + prev_weights(i) * spikeResponseDerivative(output - prev_layer_fire_times(i));
     end
     
+    if(numerator == 0)
+        hello = 4;
+        
+    end
     rtn = numerator/denominator;
 
 end
@@ -128,6 +132,15 @@ function rtn = spikeResponseDerivative(s)
 t_m = 0.05;
 t_s = 0.02;
 
-rtn = exp(-s/t_s)/t_s - exp(-s/t_m)/t_m; 
+rtn = (exp(-s/t_s)/t_s - exp(-s/t_m)/t_m) * h(s);
+
+end
+
+function rtn = h(s)
+if s<= 0
+    rtn = 0;
+else
+    rtn = 1;
+end
 
 end

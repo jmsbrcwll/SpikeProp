@@ -32,7 +32,7 @@ for i = 0:0.001:9
         potential = hiddenPotential(j, i, input_hidden_weights, input_fire_times, hidden1_fire_times(:), threshold);
         
         %if passes the threshold, add a firing time to that neuron
-        if potential >= threshold 
+        if potential >= threshold && hidden1_fire_times(j) == 0
             hidden1_fire_times(j,1) = i;     
         end
         
@@ -43,7 +43,7 @@ for i = 0:0.001:9
         potential = hiddenPotential(j, i, hidden1_hidden2_weights, hidden1_fire_times(:), hidden2_fire_times(:), threshold);
         
         %if passes the threshold, set the fire time
-        if potential >= threshold 
+        if potential >= threshold  && hidden2_fire_times(j) == 0
             hidden2_fire_times(j,1) = i;     
         end
         
@@ -52,13 +52,13 @@ for i = 0:0.001:9
  
     for j = 1:node_count
         potential = hiddenPotential(j, i, hidden2_output_weights', hidden2_fire_times(:), output_fire_times(:), threshold);
-        if potential >= threshold 
+        if potential >= threshold && output_fire_times(j) == 0
             output_fire_times(j,1) = i;
 
         end
     end
     
-    if nnz(output_fire_times) == size(output_fire_times,1) && nnz(input_fire_times) == size(input_fire_times,1)
+    if nnz(output_fire_times) == size(output_fire_times,1) %&& nnz(input_fire_times) == size(input_fire_times,1)
         break;
     end
         
@@ -66,14 +66,14 @@ for i = 0:0.001:9
 end
 
  %create fireTimes matrix
-    fireTimes = [input_fire_times';hidden1_fire_times';hidden2_fire_times';output_fire_times'];
+    fireTimes = [peakLocs;hidden1_fire_times';hidden2_fire_times';output_fire_times'];
 
     weights = zeros(3,8,8);
-    for i = 1:8
-    weights(1,i,:) = input_hidden_weights(i);
-    weights(2,i,:) = hidden1_hidden2_weights(i,:);
-    weights(3,i,1) = hidden2_output_weights(i);
-    end
+
+    weights(1,:,:) = input_hidden_weights;
+    weights(2,:,:) = hidden1_hidden2_weights;
+    weights(3,:,:) = hidden2_output_weights;
+
     
     
 
