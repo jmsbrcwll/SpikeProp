@@ -124,6 +124,10 @@ function rtn = deltaOutput(output, desired,  previous_weights, previous_fire_tim
      
  end
  
+ if denominator == 0
+     denominator = 0.1;
+     
+ end
  rtn = ( desired - output) / denominator;
 end
 
@@ -132,7 +136,7 @@ function rtn = spikeResponseDerivative(s)
 t_m = 0.05;
 t_s = 0.02;
 
-rtn = (exp(-s/t_s)/t_s - exp(-s/t_m)/t_m) * h(s);
+rtn = (exp(-s/t_s)/t_s - exp(-s/t_m)/t_m);
 
 end
 

@@ -1,6 +1,6 @@
 %this script will run everything
-load('spikeTime_inputs.mat');
-input_fire_times = peakLocs;
+load('allInitialPeaks.mat');
+input_fire_times = peakLocs(:,1:8);
 load('spikeTimings_desired.mat');
 desired_output_fire_times = peakLocs;
 
@@ -30,7 +30,7 @@ for iter = 1:100
 %loop through training examples
        
     for i = 1:size(input_fire_times, 1)
-        [weights,fire_times] = spikePropAlgorithm( input_fire_times(i,:), desired_output_fire_times(i,:),weights, 0.01, layer_node_num);
+        [weights,fire_times] = spikePropAlgorithm( input_fire_times(i,:), desired_output_fire_times(i,:),weights, 0.00001, layer_node_num);
         errors(i) = getError(desired_output_fire_times(i,:)',fire_times(4,:));
         
     end
