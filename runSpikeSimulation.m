@@ -11,7 +11,7 @@ hidden1_fire_times = zeros(node_count,1);
 hidden1_hidden2_weights = convertTo2d(weights(2,:,:)); %need a way to extract the values into an 8x8 matrix, as they are coming out as 1x8x8 with this command
 hidden2_fire_times =  zeros(node_count,1);
 
-hidden2_output_weights = convertTo2d(weights(3,:,:));
+hidden2_output_weights = convertTo2d(weights(1,:,:));
 output_fire_times = zeros(node_count,1);
 threshold = 0.1;
 
@@ -33,7 +33,7 @@ for i = 0:0.001:9
         
         %if passes the threshold, add a firing time to that neuron
         if potential >= threshold && hidden1_fire_times(j) == 0
-            hidden1_fire_times(j,1) = i;     
+            hidden1_fire_times(j) = i;     
         end
         
     end
@@ -44,7 +44,7 @@ for i = 0:0.001:9
         
         %if passes the threshold, set the fire time
         if potential >= threshold  && hidden2_fire_times(j) == 0
-            hidden2_fire_times(j,1) = i;     
+            hidden2_fire_times(j) = i;     
         end
         
     end
@@ -53,7 +53,7 @@ for i = 0:0.001:9
     for j = 1:node_count
         potential = hiddenPotential(j, i, hidden2_output_weights', hidden2_fire_times(:), output_fire_times(:), threshold);
         if potential >= threshold && output_fire_times(j) == 0
-            output_fire_times(j,1) = i;
+            output_fire_times(j) = i;
 
         end
     end
