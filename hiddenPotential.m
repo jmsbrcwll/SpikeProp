@@ -17,12 +17,12 @@ if i == 1
 end
         total = 0;
      
-         for j = 1:size(thisFireTimes,2)
-             if thisFireTimes(j) ~= 0
-              total = total + nu(threshold, t - thisFireTimes(j));
-             end
-             
-         end
+%          for j = 1:size(thisFireTimes,2)
+%              if thisFireTimes(j) ~= 0
+%               total = total + nu(threshold, t - thisFireTimes(j));
+%              end
+%              
+%          end
         
         for j = 1:size(weights(:,i),1)
             if fireTimes(j) ~= 0
@@ -40,9 +40,8 @@ end
 
 function rtn = spikeResponse(s)
 t_m = 0.05;
-t_s = 0.02;
+t_s = 0.0002;
 
-s = s-0.1;
     rtn = (exp(-s/t_m) - exp(-s/t_s)) * H(s);
 
 

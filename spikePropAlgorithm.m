@@ -26,9 +26,9 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
 
     
     
-        deltas = zeros(no_of_layers,no_of_output_nodes);
+        deltas = zeros(no_of_layers,2);
         for i = 1:no_of_output_nodes
-            deltas(no_of_layers,i) = deltaOutput(fire_times(no_of_layers,i), desired_fire_times(i), weights(no_of_layers -1,:,i), fire_times(no_of_layers -1, :));
+            deltas(no_of_layers,:) = deltaOutput(fire_times(no_of_layers,i), desired_fire_times(i), weights(no_of_layers -1,:,i), fire_times(no_of_layers -1, :));
 
         end
 
@@ -71,13 +71,26 @@ no_of_output_nodes = layer_node_num(size(layer_node_num,1));
         end
 
         %step 4: adapt weights for other layers
-        for k = no_of_layers -1:-1:2
-            for j = 1:8
-                for i = 1:8
+        for k = 3
+            for j = 1:2
+                for i = 1:2
                     weights(k-1, i,j) = weights(k-1,i,j) - step_size*(spikeResponse(fire_times(k,j) - fire_times(k-1,i))) * deltas(k, j);
                 end
             end
 
+        end
+        
+        for k = 2
+            for j = 1:2
+                for i = 1:2
+                    weights(k-1, i,j) = weights(k-1,i,j) - step_size*(spikeResponse(fire_times(k,j) - fire_times(k-1,i))) * deltas(k, j)
+                    hello =  - step_size*(spikeResponse(fire_times(k,j) - fire_times(k-1,i))) * deltas(k, j)
+                    if isnan(hello)
+                        poo = 3;
+                    end
+                                   
+                end
+            end
         end
         
         
@@ -96,6 +109,7 @@ end
 %prev_weights and prev_layer_fire_times have a one-to-one mapping to one
 %node in the previous layer
 %deltas, weights and next_layer_fire_times have a one-to-one mapping to one
+
 %node in the next layer
 function rtn = deltaHidden(output,  weights, prev_weights, deltas,  next_layer_fire_times, prev_layer_fire_times, current_layer_fire_time)
     numerator = 0;
@@ -109,7 +123,11 @@ function rtn = deltaHidden(output,  weights, prev_weights, deltas,  next_layer_f
         hello = 4;
         
     end
+    
     rtn = numerator/denominator;
+    if isnan(rtn)
+     po = 34;
+    end
 
 end
 
@@ -128,16 +146,31 @@ function rtn = deltaOutput(output, desired,  previous_weights, previous_fire_tim
      denominator = 0.1;
      
  end
+
  rtn = ( desired - output) / denominator;
+  if isnan(rtn)
+     po = 34;
+ end
 end
 
 
 function rtn = spikeResponseDerivative(s)
 t_m = 0.05;
-t_s = 0.02;
+t_s = 0.0002;
 
-rtn = (exp(-s/t_s)/t_s - exp(-s/t_m)/t_m);
+if s <= 0
+    rtn = 0;
+else
+    
+rtn = (exp(-s/t_s)/t_s - exp(-s/t_m)/t_m) ;
+    
+end
 
+
+if isnan(rtn)
+    hello = 3;
+    
+end
 end
 
 function rtn = h(s)
